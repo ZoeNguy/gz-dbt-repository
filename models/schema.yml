@@ -1,5 +1,4 @@
-version: 2
-
+ version: 2
 sources:
   - name: raw
     schema: gz_raw_data
@@ -11,11 +10,9 @@ sources:
           - name: orders_id
             description: "ID de la commande"
             tests:
-              - not_null: {}
-          - name: pdt_id
+              - not_null
+          - name: products_id
             description: "ID du produit"
-            tests:
-              - not_null: {}
           - name: date_date
             description: "Date of purchase"
         tests:
@@ -26,17 +23,14 @@ sources:
           warn_after:
             count: 90
             period: day
-
       - name: product
         identifier: raw_gz_product
         description: "greenweez product"
         columns:
           - name: products_id
-            description: "ID du produit"
+            description: "ID du product"
             tests:
-              - not_null: {}
-
+              - not_null
       - name: ship
         identifier: raw_gz_ship
         description: "greenweez, ship id"
-

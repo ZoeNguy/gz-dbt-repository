@@ -1,9 +1,9 @@
 WITH sales AS (
-    SELECT * FROM {{ ref('stg_raw__sales') }}
+    SELECT * FROM {{ ref('stg_raw__sales') }} 
 ),
 
 products AS (
-    SELECT * FROM {{ ref('stg__product') }}
+    SELECT * FROM {{ ref('stg__product') }} 
 )
 
 SELECT 
