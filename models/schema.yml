@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw
+    database: your_bigquery_project
+    schema: gz_raw_data
+    tables:
+      - name: sales
+        description: "Raw sales data"
+        identifier: raw_gz_sales
+      - name: product
+        description: "Raw product data"
+        identifier: raw_gz_product
+      - name: ship
+        description: "Raw shipping data"
+        identifier: raw_gz_ship
