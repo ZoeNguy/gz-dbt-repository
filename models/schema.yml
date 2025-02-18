@@ -2,15 +2,41 @@ version: 2
 
 sources:
   - name: raw
-    database: your_bigquery_project
     schema: gz_raw_data
     tables:
       - name: sales
-        description: "Raw sales data"
         identifier: raw_gz_sales
+        description: "greenweez, per product id in each order id"
+        columns:
+          - name: orders_id
+            description: "ID de la commande"
+            tests:
+              - not_null: {}
+          - name: pdt_id
+            description: "ID du produit"
+            tests:
+              - not_null: {}
+          - name: date_date
+            description: "Date of purchase"
+        tests:
+          - unique:
+              column_name: "(orders_id || '-' || pdt_id)"
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        freshness:
+          warn_after:
+            count: 90
+            period: day
+
       - name: product
-        description: "Raw product data"
         identifier: raw_gz_product
+        description: "greenweez product"
+        columns:
+          - name: products_id
+            description: "ID du produit"
+            tests:
+              - not_null: {}
+
       - name: ship
-        description: "Raw shipping data"
         identifier: raw_gz_ship
+        description: "greenweez, ship id"
+
