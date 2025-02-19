@@ -1,21 +1,20 @@
 WITH sales AS (
-    SELECT * FROM {{ ref('stg_raw__sales') }} 
+    SELECT * FROM `smart-ratio-449109-f5`.`dbt_znguy`.`stg_raw__sales`
 ),
 
 products AS (
-    SELECT * FROM {{ ref('stg__product') }} 
+    SELECT * FROM `smart-ratio-449109-f5`.`dbt_znguy`.`stg__product`
 )
 
 SELECT 
     sales.orders_id,
     sales.date_date,
-    sales.pdt_id AS product_id,
+    sales.pdt_id, 
     sales.quantity,
     sales.revenue,
-    products.purchase_price,
-    CAST(sales.quantity * products.purchase_price AS FLOAT64) AS purchase_cost,
-    CAST(sales.revenue - (sales.quantity * products.purchase_price) AS FLOAT64) AS margin
+    COALESCE(products.purchase_price, 0) AS purchase_price,
+    SAFE_CAST(sales.quantity * COALESCE(products.purchase_price, 0) AS FLOAT64) AS purchase_cost,
+    SAFE_CAST(sales.revenue - (sales.quantity * COALESCE(products.purchase_price, 0)) AS FLOAT64) AS margin
 FROM sales
 LEFT JOIN products
-ON sales.pdt_id = products.product_id;
-
+ON sales.pdt_id = products.products_id;
